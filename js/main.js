@@ -92,4 +92,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3200);
   }
 
+  const profileStage = document.querySelector(".profile-stage");
+  const aboutSection = document.querySelector("#experiencia");
+
+  function moveProfile() {
+      if (!profileStage || !aboutSection || window.innerWidth < 992) {
+          if (profileStage) profileStage.style.transform = "";
+          return;
+      }
+
+      const stageTop = profileStage.getBoundingClientRect().top + window.scrollY;
+      const stageHeight = profileStage.offsetHeight;
+      const aboutBottom = aboutSection.getBoundingClientRect().bottom + window.scrollY;
+
+      const movement = Math.max(
+          0,
+          Math.min(
+              window.scrollY,
+              aboutBottom - stageTop - stageHeight - 40
+          )
+      );
+
+      profileStage.style.transform = `translateY(${movement}px)`;
+  }
+
+  window.addEventListener("scroll", moveProfile);
+  window.addEventListener("resize", moveProfile);
+  moveProfile();
+
 });

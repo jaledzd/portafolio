@@ -92,9 +92,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3200);
   }
 
-  // La foto desciende con el scroll hasta quedar centrada en «Sobre mí».
+  // La foto desciende con el scroll y se detiene centrada en «Sobre mí».
   const profileStage = document.querySelector(".profile-stage");
   const aboutSection = document.querySelector("#sobre-mi");
+  let profileStartTop = 0;
+
+  function measureProfile() {
+    if (!profileStage) return;
+    profileStage.style.transform = "";
+    profileStartTop = profileStage.getBoundingClientRect().top + window.scrollY;
+  }
 
   function moveProfile() {
     if (!profileStage || !aboutSection || window.innerWidth < 992) {
@@ -102,18 +109,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const stageTop = profileStage.getBoundingClientRect().top + window.scrollY;
     const stageHeight = profileStage.offsetHeight;
     const aboutRect = aboutSection.getBoundingClientRect();
     const aboutCenter = aboutRect.top + window.scrollY + aboutRect.height / 2;
-    const targetMovement = Math.max(0, aboutCenter - stageTop - stageHeight / 2);
-    const movement = Math.min(Math.max(0, window.scrollY), targetMovement);
+    const stopAt = Math.max(0, aboutCenter - profileStartTop - stageHeight / 2);
+    const movement = Math.min(Math.max(0, window.scrollY), stopAt);
 
     profileStage.style.transform = `translate3d(0, ${movement}px, 0)`;
   }
 
+  measureProfile();
   window.addEventListener("scroll", moveProfile, { passive: true });
-  window.addEventListener("resize", moveProfile);
+  window.addEventListener("resize", () => {
+    measureProfile();
+    moveProfile();
+  });
   moveProfile();
 
 });

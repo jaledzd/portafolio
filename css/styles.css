@@ -282,3 +282,56 @@ textarea.custom-input { min-height: 130px; resize: vertical; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
+
+
+/* Recorrido: timeline conjunta de formación y experiencia */
+.career-timeline {
+  position: relative;
+  max-width: 900px;
+  margin-left: 8px;
+  padding-left: 38px;
+}
+.career-timeline::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 18px;
+  left: 13px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--blue-bright), rgba(91,157,255,.12));
+}
+.career-item { position: relative; padding: 0 0 34px 22px; }
+.career-item:last-child { padding-bottom: 0; }
+.career-marker {
+  position: absolute;
+  left: -38px;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(91,157,255,.45);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--blue-bright);
+  box-shadow: 0 0 0 6px var(--bg);
+}
+.career-content {
+  padding: 22px 25px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.career-content:hover { transform: translateY(-3px); border-color: rgba(91,157,255,.4); }
+.career-meta { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:13px; }
+.career-meta .card-category { margin:0; }
+.career-content h3 { margin:0 0 7px; font:700 19px/1.35 var(--font-heading); letter-spacing:-.035em; }
+.career-content p { margin:0; color:var(--text-soft); font-size:13px; line-height:1.8; }
+.career-content .career-place { margin-bottom:8px; color:var(--text-muted); font-size:11px; }
+@media (max-width:575.98px) {
+  .career-timeline { margin-left:0; padding-left:30px; }
+  .career-marker { left:-30px; }
+  .career-content { padding:19px; }
+  .career-content h3 { font-size:16px; }
+}

@@ -92,31 +92,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3200);
   }
 
+  // La foto desciende con el scroll hasta quedar centrada en «Sobre mí».
   const profileStage = document.querySelector(".profile-stage");
-  const aboutSection = document.querySelector("#experiencia");
+  const aboutSection = document.querySelector("#sobre-mi");
 
   function moveProfile() {
-      if (!profileStage || !aboutSection || window.innerWidth < 992) {
-          if (profileStage) profileStage.style.transform = "";
-          return;
-      }
+    if (!profileStage || !aboutSection || window.innerWidth < 992) {
+      if (profileStage) profileStage.style.transform = "";
+      return;
+    }
 
-      const stageTop = profileStage.getBoundingClientRect().top + window.scrollY;
-      const stageHeight = profileStage.offsetHeight;
-      const aboutBottom = aboutSection.getBoundingClientRect().bottom + window.scrollY;
+    const stageTop = profileStage.getBoundingClientRect().top + window.scrollY;
+    const stageHeight = profileStage.offsetHeight;
+    const aboutRect = aboutSection.getBoundingClientRect();
+    const aboutCenter = aboutRect.top + window.scrollY + aboutRect.height / 2;
+    const targetMovement = Math.max(0, aboutCenter - stageTop - stageHeight / 2);
+    const movement = Math.min(Math.max(0, window.scrollY), targetMovement);
 
-      const movement = Math.max(
-          0,
-          Math.min(
-              window.scrollY,
-              aboutBottom - stageTop - stageHeight - 40
-          )
-      );
-
-      profileStage.style.transform = `translateY(${movement}px)`;
+    profileStage.style.transform = `translate3d(0, ${movement}px, 0)`;
   }
 
-  window.addEventListener("scroll", moveProfile);
+  window.addEventListener("scroll", moveProfile, { passive: true });
   window.addEventListener("resize", moveProfile);
   moveProfile();
 

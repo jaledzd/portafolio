@@ -391,3 +391,12 @@ textarea.custom-input { min-height: 130px; resize: vertical; }
     padding-left: 30px;
   }
 }
+
+
+/* Ajuste definitivo: la tarjeta debe respetar el padding de career-item.
+   width:100% sumaba ese padding y provocaba el desbordamiento derecho. */
+.career-content {
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+}

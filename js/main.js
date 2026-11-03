@@ -126,6 +126,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   moveProfile();
 
+  // Desplegar las categorías adicionales del stack bajo demanda.
+  const techToggle = document.getElementById("toggleTechGroups");
+  const extraTechGroups = document.querySelectorAll(".tech-group-extra");
+
+  if (techToggle && extraTechGroups.length) {
+    techToggle.addEventListener("click", () => {
+      const willExpand = techToggle.getAttribute("aria-expanded") !== "true";
+
+      extraTechGroups.forEach((group) => {
+        group.hidden = !willExpand;
+      });
+
+      techToggle.setAttribute("aria-expanded", String(willExpand));
+      techToggle.innerHTML = willExpand
+        ? 'Mostrar menos <i class="bi bi-chevron-up" aria-hidden="true"></i>'
+        : 'Mostrar todas las tecnologías <i class="bi bi-chevron-down" aria-hidden="true"></i>';
+
+      if (willExpand) {
+        extraTechGroups[0].scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }
+
   // Carruseles del stack: una fila independiente por categoría.
   document.querySelectorAll(".tech-group").forEach((group) => {
     const track = group.querySelector(".tech-track");

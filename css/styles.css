@@ -334,3 +334,60 @@ textarea.custom-input { min-height: 130px; resize: vertical; }
   .career-content { padding:19px; }
   .career-content h3 { font-size:16px; }
 }
+
+
+/* Corrección de tarjetas: evitar recortes por anchura y gutters */
+.content-card,
+.career-content {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.career-column {
+  width: 100%;
+  min-width: 0;
+}
+
+.career-timeline {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 0 0 38px;
+}
+
+.career-item {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding-right: 0;
+}
+
+.career-content {
+  max-width: 100%;
+}
+
+.project-card,
+.certificate-card {
+  height: 100%;
+  min-width: 0;
+}
+
+.project-body,
+.career-meta {
+  min-width: 0;
+}
+
+@media (max-width: 991.98px) {
+  .career-timeline {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .career-timeline {
+    padding-left: 30px;
+  }
+}

@@ -65,16 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Enlaces sociales provisionales.
-  document.querySelectorAll("[data-placeholder-link]").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      showToast(
-        `Añade aquí la URL de tu perfil de ${link.dataset.placeholderLink}.`
-      );
-    });
-  });
 
   // Aviso reutilizable.
   function showToast(message) {

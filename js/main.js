@@ -144,29 +144,42 @@ document.addEventListener("DOMContentLoaded", () => {
         : 'Mostrar todas las tecnologías <i class="bi bi-chevron-down" aria-hidden="true"></i>';
 
       if (willExpand) {
-        extraTechGroups[0].scrollIntoView({ behavior: "smooth", block: "start" });
+        // Esperar a que el navegador pinte las filas antes de medir su anchura.
+        requestAnimationFrame(() => {
+          extraTechGroups.forEach((group) => refreshTechControls(group));
+          extraTechGroups[0].scrollIntoView({ behavior: "smooth", block: "start" });
+        });
       }
     });
   }
 
   // Carruseles del stack: una fila independiente por categoría.
-  document.querySelectorAll(".tech-group").forEach((group) => {
+  const techGroups = Array.from(document.querySelectorAll(".tech-group"));
+
+  function refreshTechControls(group) {
+    const track = group.querySelector(".tech-track");
+    const previous = group.querySelector('[data-tech-direction="-1"]');
+    const next = group.querySelector('[data-tech-direction="1"]');
+
+    if (!track || !previous || !next || group.hidden) return;
+
+    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+    const hasOverflow = maxScroll > 2;
+
+    track.classList.toggle("is-overflowing", hasOverflow);
+    previous.hidden = !hasOverflow;
+    next.hidden = !hasOverflow;
+    previous.disabled = !hasOverflow || track.scrollLeft <= 2;
+    next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
+  }
+
+  // Carruseles del stack: recalcular también al desplegar categorías.
+  techGroups.forEach((group) => {
     const track = group.querySelector(".tech-track");
     const previous = group.querySelector('[data-tech-direction="-1"]');
     const next = group.querySelector('[data-tech-direction="1"]');
 
     if (!track || !previous || !next) return;
-
-    function updateTechControls() {
-      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-      const hasOverflow = maxScroll > 2;
-
-      track.classList.toggle("is-overflowing", hasOverflow);
-      previous.hidden = !hasOverflow;
-      next.hidden = !hasOverflow;
-      previous.disabled = !hasOverflow || track.scrollLeft <= 2;
-      next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
-    }
 
     previous.addEventListener("click", () => {
       track.scrollBy({ left: -track.clientWidth * 0.82, behavior: "smooth" });
@@ -176,9 +189,9 @@ document.addEventListener("DOMContentLoaded", () => {
       track.scrollBy({ left: track.clientWidth * 0.82, behavior: "smooth" });
     });
 
-    track.addEventListener("scroll", updateTechControls, { passive: true });
-    window.addEventListener("resize", updateTechControls);
-    updateTechControls();
+    track.addEventListener("scroll", () => refreshTechControls(group), { passive: true });
+    window.addEventListener("resize", () => refreshTechControls(group));
+    refreshTechControls(group);
   });
 
 });

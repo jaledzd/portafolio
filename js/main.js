@@ -126,4 +126,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   moveProfile();
 
+  // Carruseles del stack: una fila independiente por categoría.
+  document.querySelectorAll(".tech-group").forEach((group) => {
+    const track = group.querySelector(".tech-track");
+    const previous = group.querySelector('[data-tech-direction="-1"]');
+    const next = group.querySelector('[data-tech-direction="1"]');
+
+    if (!track || !previous || !next) return;
+
+    function updateTechControls() {
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      const hasOverflow = maxScroll > 2;
+
+      previous.hidden = !hasOverflow;
+      next.hidden = !hasOverflow;
+      previous.disabled = !hasOverflow || track.scrollLeft <= 2;
+      next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
+    }
+
+    previous.addEventListener("click", () => {
+      track.scrollBy({ left: -track.clientWidth * 0.82, behavior: "smooth" });
+    });
+
+    next.addEventListener("click", () => {
+      track.scrollBy({ left: track.clientWidth * 0.82, behavior: "smooth" });
+    });
+
+    track.addEventListener("scroll", updateTechControls, { passive: true });
+    window.addEventListener("resize", updateTechControls);
+    updateTechControls();
+  });
+
 });

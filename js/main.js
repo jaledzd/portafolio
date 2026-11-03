@@ -193,5 +193,56 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", () => refreshTechControls(group));
     refreshTechControls(group);
   });
+  
+  // Carruseles reutilizables para Proyectos y Certificados.
+  const contentCarousels = document.querySelectorAll("[data-content-carousel]");
+
+  contentCarousels.forEach((carousel) => {
+    const track = carousel.querySelector("[data-content-track]");
+    const previous = carousel.querySelector('[data-content-direction="-1"]');
+    const next = carousel.querySelector('[data-content-direction="1"]');
+    const toggle = carousel.querySelector("[data-content-toggle]");
+
+    if (!track || !previous || !next || !toggle) return;
+
+    function refreshContentControls() {
+      const expanded = carousel.classList.contains("is-expanded");
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      const hasOverflow = maxScroll > 2;
+
+      carousel.classList.toggle("has-overflow", hasOverflow);
+      previous.hidden = expanded || !hasOverflow;
+      next.hidden = expanded || !hasOverflow;
+      previous.disabled = !hasOverflow || track.scrollLeft <= 2;
+      next.disabled = !hasOverflow || track.scrollLeft >= maxScroll - 2;
+      toggle.hidden = !hasOverflow && track.children.length <= 2;
+    }
+
+    previous.addEventListener("click", () => {
+      track.scrollBy({ left: -track.clientWidth * 0.82, behavior: "smooth" });
+    });
+
+    next.addEventListener("click", () => {
+      track.scrollBy({ left: track.clientWidth * 0.82, behavior: "smooth" });
+    });
+
+    track.addEventListener("scroll", refreshContentControls, { passive: true });
+    window.addEventListener("resize", refreshContentControls);
+
+    toggle.addEventListener("click", () => {
+      const willExpand = !carousel.classList.contains("is-expanded");
+      carousel.classList.toggle("is-expanded", willExpand);
+      toggle.setAttribute("aria-expanded", String(willExpand));
+      toggle.innerHTML = willExpand
+        ? 'Mostrar menos <i class="bi bi-chevron-up" aria-hidden="true"></i>'
+        : 'Mostrar más <i class="bi bi-chevron-down" aria-hidden="true"></i>';
+
+      if (!willExpand) track.scrollTo({ left: 0, behavior: "smooth" });
+
+      requestAnimationFrame(refreshContentControls);
+    });
+
+    refreshContentControls();
+  });
 
 });

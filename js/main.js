@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
       const hasOverflow = maxScroll > 2;
 
+      track.classList.toggle("is-overflowing", hasOverflow);
       previous.hidden = !hasOverflow;
       next.hidden = !hasOverflow;
       previous.disabled = !hasOverflow || track.scrollLeft <= 2;

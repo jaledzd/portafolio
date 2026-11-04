@@ -1,0 +1,128 @@
+
+# ==========================================
+# PORTFOLIO - GITIGNORE
+# ==========================================
+
+# ------------------------------------------
+# SISTEMA OPERATIVO
+# ------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.stackdump
+
+# ------------------------------------------
+# EDITORES E IDE
+# ------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+.history/
+
+# ------------------------------------------
+# NODE.JS / TYPESCRIPT
+# ------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos generados
+dist/
+build/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# No ignorar archivos de dependencias
+# package.json
+# package-lock.json
+# tsconfig.json
+
+# ------------------------------------------
+# VARIABLES DE ENTORNO Y SECRETOS
+# ------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.template
+
+*.secret
+*.secrets
+secrets/
+credentials/
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Credenciales AWS
+.aws/
+credentials
+config.aws
+
+# ------------------------------------------
+# TERRAFORM
+# ------------------------------------------
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfplan
+*.plan
+crash.log
+crash.*.log
+
+# Variables Terraform que pueden contener secretos
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.template
+
+# Mantener el archivo de bloqueo de proveedores
+# .terraform.lock.hcl
+
+# ------------------------------------------
+# AWS LAMBDA
+# ------------------------------------------
+*.zip
+lambda.zip
+*.log
+
+# Archivos compilados de Lambda
+**/lambda/**/dist/
+**/lambda/**/build/
+
+# ------------------------------------------
+# ARCHIVOS TEMPORALES
+# ------------------------------------------
+*.tmp
+*.temp
+*.bak
+*.old
+*.swp
+*.swo
+*.orig
+*.cache
+
+# ------------------------------------------
+# DOCUMENTACIÓN GENERADA
+# ------------------------------------------
+site/
+.next/
+.nuxt/
+.parcel-cache/
+.turbo/
+
+# ------------------------------------------
+# PRUEBAS Y RESULTADOS
+# ------------------------------------------
+test-results/
+playwright-report/
+junit.xml

@@ -1,0 +1,22 @@
+{
+  "name": "portfolio-contact-lambda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AWS Lambda para el formulario de contacto del portfolio",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run typecheck && esbuild src/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.1162.0",
+    "@aws-sdk/client-sns": "^3.1162.0",
+    "@aws-sdk/lib-dynamodb": "3.1162.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/node": "^22.20.5",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.0.0"
+  }
+}

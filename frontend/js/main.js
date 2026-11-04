@@ -45,23 +45,77 @@ document.addEventListener("DOMContentLoaded", () => {
     currentYear.textContent = new Date().getFullYear();
   }
 
-  // Formulario: validación visual, todavía sin envío real.
+
+  // Formulario de contacto: envío real a AWS API Gateway
   const contactForm = document.getElementById("contactForm");
   const formStatus = document.getElementById("formStatus");
 
+  // Endpoint de API Gateway obtenido de Terraform
+  const urlApiContacto = "https://1vjgzfxpzf.execute-api.eu-north-1.amazonaws.com/contacto";
+
   if (contactForm && formStatus) {
-    contactForm.addEventListener("submit", (event) => {
+    contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      // Validar los campos del formulario
       if (!contactForm.checkValidity()) {
         contactForm.reportValidity();
         return;
       }
 
-      formStatus.textContent =
-        "Formulario validado correctamente. El envío se activará cuando conectemos el backend.";
+      const botonEnviar = contactForm.querySelector(
+        'button[type="submit"]'
+      );
 
-      contactForm.reset();
+      // Recoger los valores de los inputs
+      const datosContacto = {
+        nombre: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        mensaje: document.getElementById("message").value.trim()
+      };
+
+      try {
+        // Evitar envíos duplicados
+        if (botonEnviar) botonEnviar.disabled = true;
+
+        formStatus.textContent = "Enviando tu mensaje...";
+
+        // Enviar los datos a API Gateway
+        const respuesta = await fetch(urlApiContacto, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(datosContacto)
+        });
+
+        const resultado = await respuesta.json();
+
+        // Comprobar la respuesta de Lambda
+        if (!respuesta.ok || !resultado.exito) {
+          throw new Error(
+            resultado.mensaje || "No se ha podido enviar el mensaje."
+          );
+        }
+
+        // Mostrar confirmación y limpiar el formulario
+        formStatus.textContent =
+          "¡Mensaje enviado correctamente! Gracias por contactar conmigo.";
+
+        contactForm.reset();
+
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+
+        formStatus.textContent =
+          error.message === "Failed to fetch"
+            ? "No se ha podido conectar con el servidor. Inténtalo de nuevo."
+            : error.message || "Ha ocurrido un error al enviar el mensaje.";
+
+      } finally {
+        // Volver a habilitar el botón
+        if (botonEnviar) botonEnviar.disabled = false;
+      }
     });
   }
 

@@ -37,6 +37,7 @@ resource "aws_lambda_function" "contacto" {
   environment {
     variables = {
       TABLA_CONTACTOS = aws_dynamodb_table.contactos.name
+      TOPIC_ARN       = data.aws_sns_topic.contacto.arn
     }
   }
 

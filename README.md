@@ -104,6 +104,7 @@ flowchart TD
 ---
 
 ## Estructura del repositorio
+```text
 portafolio/
 │
 ├── .gitignore
@@ -194,6 +195,7 @@ portafolio/
     ├── variables.tf
     └── vpc.tf
 ---
+```
 
 ## Infraestructura como código
 

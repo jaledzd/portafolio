@@ -45,6 +45,12 @@ resource "aws_apigatewayv2_stage" "produccion" {
   name        = "$default"
   auto_deploy = true
 
+  # Límites de solicitudes para proteger la API
+  default_route_settings {
+    throttling_burst_limit = 5
+    throttling_rate_limit  = 2
+  }
+
   tags = local.common_tags
 }
 

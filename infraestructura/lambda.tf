@@ -1,8 +1,8 @@
 # Comprimir el código de Lambda
 data "archive_file" "lambda_contacto" {
   type        = "zip"
-  source_file = "${path.module}/lambda/contact/dist/index.js"
-  output_path = "${path.module}/lambda/contact/function.zip"
+  source_file = "${path.module}/../backend/lambda/contact/dist/index.js"
+  output_path = "${path.module}/../backend/lambda/contact/function.zip"
 }
 
 # Rol que permitirá a Lambda ejecutarse

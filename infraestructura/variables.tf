@@ -10,3 +10,8 @@ variable "vpc_cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
+output "portfolio_sns_topic_arn" {
+  description = "ARN del tema SNS para notificaciones de contacto"
+  value       = data.aws_sns_topic.contacto.arn
+}
